@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./client/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
@@ -10,7 +10,7 @@ module.exports = {
         'grey': '#d4d4d4'
       },
       backgroundImage: {
-        banner: `url('../assets/image/banner.jpg')`,
+        banner: `url('../public/image/banner.jpg')`,
       },
     },
   },
