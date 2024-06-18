@@ -7,6 +7,7 @@ DB : ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&
 
 ## Refactoring Team
 Frontend : 김도균 (rlaehrbs1968@gmail.com)
+
 Backend : 구동하 (Acacian)
 
 ## 변경 사항
