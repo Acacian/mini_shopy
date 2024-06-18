@@ -1,6 +1,6 @@
 ## mini_shopy
-개요 : 타인이 만든 개인 프로젝트에서 부족한 부분들이 너무 많아 일부만이라도 리팩토링하면서
-Spring에 도전하고 개발 역량을 향상시키는 데에 그 의의가 있음.
+개요 : 타인이 만든 개인 프로젝트에서 부족한 부분들이 너무 많아 리팩토링하면서
+legacy 코드를 개선하고 troubleshooting을 경험하며 개발 역량을 향상시키는 데에 그 의의가 있음.
 
 ## mini_shopy
 Frontend : ![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
