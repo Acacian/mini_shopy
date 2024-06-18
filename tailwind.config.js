@@ -10,7 +10,7 @@ module.exports = {
         'grey': '#d4d4d4'
       },
       backgroundImage: {
-        banner: `url('../public/image/banner.jpg')`,
+        banner: `url('../assets/image/banner.jpg')`,
       },
     },
   },
