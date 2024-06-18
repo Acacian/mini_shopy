@@ -1,4 +1,7 @@
 ## mini_shopy
+개요 : 타인이 만든 개인 프로젝트에서 부족한 부분들이 너무 많아 일부만이라도 리팩토링하기로 함.
+
+## mini_shopy
 Frontend : ![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
 Backend : ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
