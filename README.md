@@ -1,7 +1,9 @@
 ## mini_shopy
 Frontend : ![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-Backend : Nest.js
-DB : MySQL
+
+Backend : ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+
+DB : ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 ## 구현한 기능
 - [ReactQuery의 infiniteQuery와 intersectionAPI, useRef를 활용해 상품 무한 스크롤 기능 구현 (강의 외의 추가 기능)](https://next-js-blog-ashen.vercel.app/posts/infinite-query)
