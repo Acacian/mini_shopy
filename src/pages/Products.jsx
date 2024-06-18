@@ -1,15 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import ProductCard from "../components/ProductCard";
-import useProducts from "../hooks/useProducts";
+import { useCart } from '../hooks/useCart';
 import Spinner from "../components/Spinner";
-
+import { useUserContext } from "../context/UserContext";
+import { useProducts } from "../hooks/useProducts";
 
 export default function Products() {
   const target = useRef();
-
+  const { user } = useUserContext();
   const {
     productsQuery: { data, error, isFetching, fetchNextPage, hasNextPage },
-  } = useProducts();
+  } = useProducts(user ? user.id : "");
 
   useEffect(() => {
     let callback = (entries) => {
@@ -35,24 +36,25 @@ export default function Products() {
 
   return (
     <>
-      {!!data || isFetching || <>등록된 상품이 없습니다.</>}
-
-      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 p-5">
-        {data &&
-          data.pages.map((page) => {
+      {data && !isFetching ? (
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 p-5">
+          {data.pages.map((page) => {
             return page.data.map((product) => (
-                <ProductCard product={product} key={product.id} />
-                ));
-              })}
-      </ul>
+              <ProductCard product={product} key={product.id} />
+            ));
+          })}
+        </ul>
+      ) : (
+        <>등록된 상품이 없습니다.</>
+      )}
 
       {(isFetching || hasNextPage) && (
-        <div ref={target} >
-          <Spinner/>
+        <div ref={target}>
+          <Spinner />
         </div>
       )}
 
-      {error && <>{error}</>}
+      {error && <div>Error loading products: {error.message}</div>}
     </>
   );
 }

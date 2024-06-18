@@ -1,33 +1,34 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  addOrUpdateCart,
-  getCart as fetchCart,
-  removeFromCart,
-} from '../api/database';
-import { useUserContext } from '../context/UserContext';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
-export default function useCart() {
+const fetchCart = async (userId) => {
+  if (!userId) throw new Error("User ID is required");
+  const response = await axios.get(`http://localhost:3000/cart/${userId}`);
+  return response.data;
+};
+
+export const useCart = (userId) => {
   const queryClient = useQueryClient();
-  const { uid } = useUserContext();
 
-  const getCart = useQuery(['carts', uid || ''], () => fetchCart(uid), {
-    enabled: !!uid,
+  const cartQuery = useQuery(["cart", userId], () => fetchCart(userId), {
+    enabled: !!userId, // userId가 있을 때만 쿼리를 실행
   });
 
-  const addOrUpdateItem = useMutation({
-    mutationFn: (product) => {
-      return addOrUpdateCart(product, uid);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['carts', uid] });
-    },
-  });
+  console.log("Cart data:", cartQuery.data);
 
-  const removeItem = useMutation((id) => removeFromCart(uid, id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['carts', uid]);
-    },
-  });
+  const addOrUpdateCart = useMutation(
+    (product) => axios.post(`http://localhost:3000/cart`, { product, userId }),
+    {
+      onSuccess: () => queryClient.invalidateQueries(["cart", userId]),
+    }
+  );
 
-  return { getCart, addOrUpdateItem, removeItem };
-}
+  const removeFromCart = useMutation(
+    (productId) => axios.delete(`http://localhost:3000/cart/${userId}/${productId}`),
+    {
+      onSuccess: () => queryClient.invalidateQueries(["cart", userId]),
+    }
+  );
+
+  return { cartQuery, addOrUpdateCart, removeFromCart };
+};

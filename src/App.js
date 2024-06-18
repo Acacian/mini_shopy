@@ -3,6 +3,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import { UserContextProvider } from "./context/UserContext";
+import CartStatus from "./components/CartStatus";
 
 const queryClient = new QueryClient();
 export default function App() {
@@ -10,6 +11,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
         <Header />
+        <CartStatus /> 
         <Outlet />
       </UserContextProvider>
     </QueryClientProvider>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUserContext } from '../context/UserContext';
-import useCart from '../hooks/useCart';
+import { useCart } from '../hooks/useCart';
 
 export default function ProductDetail() {
   const { addOrUpdateItem } = useCart();

@@ -1,11 +1,15 @@
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import useCart from "../hooks/useCart";
+import { useCart } from "../hooks/useCart";
+import { useUserContext } from "../context/UserContext";
 
 export default function CartStatus() {
-  const {
-    getCart: { data: carts },
-  } = useCart();
+  const { user } = useUserContext();
+  const { cartQuery } = useCart(user ? user.id : null);
+  const { data: carts, isLoading, error } = cartQuery;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading cart: {error.message}</div>;
 
   return (
     <div className="relative w-8">

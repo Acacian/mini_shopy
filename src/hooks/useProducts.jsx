@@ -1,33 +1,29 @@
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-import {
-  getProducts as fetchProducts,
-  writeProductData,
-} from "../api/database";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-export default function useProducts() {
-  const queryClient = useQueryClient();
-
-  const productsQuery = useInfiniteQuery({
-    queryKey: ["products"],
-    queryFn: ({ pageParam = null }) => fetchProducts(pageParam),
-    getNextPageParam: (lastPage) => {
-      return lastPage.nextCursor ?? undefined;
-    },
-    staleTime: 60 * 1000,
+const fetchProducts = async ({ pageParam = 0 }) => {
+  const response = await axios.get(`http://localhost:3000/products`, {
+    params: { page: pageParam, limit: 4 },
   });
+  return response.data;
+};
 
-  const addProduct = useMutation({
-    mutationFn: ({ product, url }) => {
-      return writeProductData(product, url);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+export const useProducts = () => {
+  const {
+    data,
+    error,
+    isLoading,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(["products"], fetchProducts, {
+    getNextPageParam: (lastPage, allPages) => {
+      // 예제 로직: lastPage에 nextPage 정보가 포함되어 있다고 가정
+      return lastPage.nextPage ?? false;
     },
   });
 
-  return { addProduct, productsQuery };
-}
+  return {
+    productsQuery: { data, error, isLoading, isFetching, fetchNextPage, hasNextPage },
+  };
+};

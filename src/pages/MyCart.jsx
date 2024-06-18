@@ -1,7 +1,7 @@
 import React from 'react';
 import PriceCard from '../components/PriceCard';
 import CartItem from '../components/CartItem';
-import useCart from '../hooks/useCart';
+import { useCart } from '../hooks/useCart';
 
 const shipPrice = 3000;
 

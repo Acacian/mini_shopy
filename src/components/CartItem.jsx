@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlinePlusSquare, AiOutlineMinusSquare } from 'react-icons/ai';
 import { FaTrashAlt } from 'react-icons/fa';
-import useCart from '../hooks/useCart';
+import { useCart } from '../hooks/useCart';
 
 export default function CartCard({
   cart,
