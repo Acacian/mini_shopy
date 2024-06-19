@@ -9,7 +9,7 @@ export default function CartStatus() {
   const { cartQuery } = useCart(userId);
   const { data: carts, isLoading, error } = cartQuery || {};
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <AiOutlineShoppingCart className="text-xl relative" />;
   if (error) return <div>Error loading cart: {error.message}</div>;
 
   return (
