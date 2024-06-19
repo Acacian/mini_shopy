@@ -4,20 +4,12 @@ import { Link } from "react-router-dom";
 import User from "./User";
 import { useUser } from "../context/UserContext";
 import Button from "./Button";
-import CartStatus from "./CartStatus";
+import CartStatus from "./CartStatus";  // 수정된 부분
 
 export default function Header() {
   const { user, login, logout } = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    await login(username, password);
-  };
-
-  const handleLogout = async () => {
-    await logout();
-  };
 
   return (
     <header className="flex justify-between items-center border-b border-grey p-3 w-full">
@@ -45,10 +37,10 @@ export default function Header() {
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
             />
-            <Button onClick={handleLogin} text="Login" />
+            <Button onClick={() => login(username, password)} text="Login" />
           </div>
         )}
-        {user && <Button onClick={handleLogout} text="Logout" />}
+        {user && <Button onClick={logout} text="Logout" />}
       </div>
     </header>
   );

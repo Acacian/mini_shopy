@@ -1,7 +1,7 @@
-import React from "react";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { useCart } from "../hooks/useCart";
-import { useUser } from "../context/UserContext";
+import React from 'react';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { useCart } from '../hooks/useCart';
+import { useUser } from '../context/UserContext';
 
 export default function CartStatus() {
   const { user } = useUser();
@@ -9,7 +9,11 @@ export default function CartStatus() {
   const { cartQuery } = useCart(userId);
   const { data: carts, isLoading, error } = cartQuery || {};
 
-  if (isLoading) return <AiOutlineShoppingCart className="text-xl relative" />;
+  if (!user) {
+    return null; // 로그아웃 상태에서는 아무것도 표시하지 않음
+  }
+
+  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading cart: {error.message}</div>;
 
   return (
