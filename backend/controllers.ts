@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Delete, Param, Body, Query, Req } from '@nestjs/common';
-import { DatabaseService, AuthService } from './services';
+import { DatabaseService } from './services';
 import { Product } from './entities';
-import { Request } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { ExtendedRequest } from './dto/extended-request.dto';
 
 @Controller('database')
 export class DatabaseController {
@@ -38,7 +39,11 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Get('user')
-  getUser(@Req() req: Request) {
-    return this.authService.getUser(req);
+  async getUser(@Req() req: ExtendedRequest) {
+    try {
+      return await this.authService.getUser(req);
+    } catch (error: any) {
+      return { error: error.message };
+    }
   }
 }

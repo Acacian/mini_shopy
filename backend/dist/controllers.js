@@ -16,7 +16,7 @@ exports.AuthController = exports.DatabaseController = void 0;
 const common_1 = require("@nestjs/common");
 const services_1 = require("./services");
 const entities_1 = require("./entities");
-const common_2 = require("@nestjs/common");
+const auth_service_1 = require("./auth.service");
 let DatabaseController = class DatabaseController {
     constructor(databaseService) {
         this.databaseService = databaseService;
@@ -85,8 +85,13 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    getUser(req) {
-        return this.authService.getUser(req);
+    async getUser(req) {
+        try {
+            return await this.authService.getUser(req);
+        }
+        catch (error) {
+            return { error: error.message };
+        }
     }
 };
 exports.AuthController = AuthController;
@@ -95,10 +100,10 @@ __decorate([
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getUser", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [services_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 //# sourceMappingURL=controllers.js.map
