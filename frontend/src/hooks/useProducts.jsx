@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 const fetchProducts = async ({ pageParam = "", limit = 4 }) => {
-  const response = await axios.get(`${API_URL}/database/products?page=${pageParam}&limit=${limit}`);
+  const response = await axios.get(`${apiUrl}/database/products?page=${pageParam}&limit=${limit}`);
   return response.data;
 };
 

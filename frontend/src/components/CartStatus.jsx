@@ -1,10 +1,10 @@
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useCart } from "../hooks/useCart";
-import { useUserContext } from "../context/UserContext";
+import { useUser } from "../context/UserContext";
 
 export default function CartStatus() {
-  const { user } = useUserContext();
+  const { user } = useUser();
   const userId = user ? user.id : null;
   const { cartQuery } = useCart(userId);
   const { data: carts, isLoading, error } = cartQuery || {};

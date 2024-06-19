@@ -1,49 +1,49 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const UserContext = createContext();
 
-export const UserContextProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = async () => {
-    try {
-      const response = await axios.post("http://localhost:3001/auth/login", {
-        // login data
+  useEffect(() => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+    axios.get(`${apiUrl}/auth/user`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
       });
-      setUser(response.data.user);
+  }, []);
+
+  const login = async () => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+    try {
+      const response = await axios.post(`${apiUrl}/auth/login`);
+      setUser(response.data);
     } catch (error) {
-      console.error("Login error", error);
+      console.error(error);
     }
   };
 
   const logout = async () => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     try {
-      await axios.post("http://localhost:3001/auth/logout");
+      await axios.post(`${apiUrl}/auth/logout`);
       setUser(null);
     } catch (error) {
-      console.error("Logout error", error);
+      console.error(error);
     }
   };
-
-  const getUserState = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/auth/user");
-      setUser(response.data.user);
-    } catch (error) {
-      console.error("User state error", error);
-    }
-  };
-
-  useEffect(() => {
-    getUserState();
-  }, []);
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </UserContext.Provider>
   );
 };
 
-export const useUserContext = () => useContext(UserContext);
+export const useUser = () => {
+  return useContext(UserContext);
+};

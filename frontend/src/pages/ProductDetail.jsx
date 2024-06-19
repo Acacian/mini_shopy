@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useUserContext } from '../context/UserContext';
+import { useUser } from '../context/UserContext';
 import { useCart } from '../hooks/useCart';
 
 export default function ProductDetail() {
@@ -8,7 +8,7 @@ export default function ProductDetail() {
   const {
     state: { id, name, description, category, imageUrl, option, price },
   } = useLocation();
-  const { user } = useUserContext();
+  const { user } = useUser();
 
   const [selected, setSelected] = useState(option && option[0]);
   const [completed, setCompleted] = useState(false);

@@ -1,23 +1,29 @@
-import React from "react";
-import { useProducts } from "../hooks/useProducts";
+import React from 'react';
+import { useProducts } from '../hooks/useProducts';
 
-export default function Products() {
-  const { data, error, isLoading, isFetching, fetchNextPage, hasNextPage } = useProducts();
+const Products = () => {
+  const { data, error, isLoading, isFetching } = useProducts();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading products: {error.message}</div>;
+  if (isLoading || isFetching) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
-      {data.pages.map((page, index) => (
-        <React.Fragment key={index}>
-          {page.data.map((product) => (
-            <div key={product.id}>{product.name}</div>
-          ))}
-        </React.Fragment>
-      ))}
-      {isFetching && <div>Loading more...</div>}
-      {hasNextPage && <button onClick={() => fetchNextPage()}>Load More</button>}
+      {data.pages.map((page) =>
+        page.data.map((product) => (
+          <div key={product.id}>
+            <h3>{product.name}</h3>
+            <p>{product.description}</p>
+          </div>
+        ))
+      )}
     </div>
   );
-}
+};
+
+export default Products;
