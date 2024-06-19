@@ -9,6 +9,8 @@ export declare class Product {
 }
 export declare class User {
     id: number;
+    username: string;
+    password: string;
     email: string;
     isAdmin: boolean;
     carts: Cart[];

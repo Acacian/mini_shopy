@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const entities_1 = require("./entities");
+const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(userRepository) {
         this.userRepository = userRepository;
@@ -32,6 +33,15 @@ let AuthService = class AuthService {
             throw new Error('User not found');
         }
         return user;
+    }
+    async login(username, password) {
+        const user = await this.userRepository.findOne({ where: { username } });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        return user;
+    }
+    async logout(req) {
     }
 };
 exports.AuthService = AuthService;

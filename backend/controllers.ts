@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Delete, Param, Body, Query, Req } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, Query, Req, Request } from '@nestjs/common';
 import { DatabaseService } from './services';
 import { Product } from './entities';
 import { AuthService } from './auth.service';
-import { ExtendedRequest } from './dto/extended-request.dto';
 
 @Controller('database')
 export class DatabaseController {
@@ -39,9 +38,27 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Get('user')
-  async getUser(@Req() req: ExtendedRequest) {
+  async getUser(@Req() req: Request) {
     try {
       return await this.authService.getUser(req);
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
+
+  @Post('login')
+  async login(@Body() body: { username: string; password: string }) {
+    try {
+      return await this.authService.login(body.username, body.password);
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
+
+  @Post('logout')
+  async logout(@Req() req: Request) {
+    try {
+      return await this.authService.logout(req);
     } catch (error: any) {
       return { error: error.message };
     }

@@ -1,7 +1,6 @@
 import { DatabaseService } from './services';
 import { Product } from './entities';
 import { AuthService } from './auth.service';
-import { ExtendedRequest } from './dto/extended-request.dto';
 export declare class DatabaseController {
     private databaseService;
     constructor(databaseService: DatabaseService);
@@ -20,7 +19,16 @@ export declare class DatabaseController {
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    getUser(req: ExtendedRequest): Promise<import("./entities").User | {
+    getUser(req: Request): Promise<import("./entities").User | {
+        error: any;
+    }>;
+    login(body: {
+        username: string;
+        password: string;
+    }): Promise<import("./entities").User | {
+        error: any;
+    }>;
+    logout(req: Request): Promise<void | {
         error: any;
     }>;
 }
