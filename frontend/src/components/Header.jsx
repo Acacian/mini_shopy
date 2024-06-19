@@ -4,35 +4,19 @@ import { Link } from 'react-router-dom';
 import User from './User';
 import { useUser } from '../context/UserContext';
 import Button from './Button';
-import CartStatus from './CartStatus'; // CartStatus import 추가
-import axios from 'axios'; // axios import 추가
+import CartStatus from './CartStatus';
 
 export default function Header() {
-  const { user, setUser } = useUser();
+  const { user, login, logout } = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const login = async () => {
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-    try {
-      const response = await axios.post(`${apiUrl}/auth/login`, {
-        username,
-        password,
-      });
-      setUser(response.data);
-    } catch (error) {
-      console.error('Login error', error);
-    }
+  const handleLogin = async () => {
+    await login(username, password);
   };
 
-  const logout = async () => {
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-    try {
-      await axios.post(`${apiUrl}/auth/logout`);
-      setUser(null); // 로그아웃 후 사용자 정보 초기화
-    } catch (error) {
-      console.error('Logout error', error);
-    }
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -50,23 +34,25 @@ export default function Header() {
         )}
         {user && <User user={user} />}
         {!user && (
-          <div>
+          <div className="flex items-center gap-2">
             <input 
               type="text" 
               placeholder="Username" 
               value={username} 
               onChange={(e) => setUsername(e.target.value)} 
+              className="border p-1"
             />
             <input 
               type="password" 
               placeholder="Password" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
+              className="border p-1"
             />
-            <Button onClick={login} text="Login" />
+            <Button onClick={handleLogin} text="Login" />
           </div>
         )}
-        {user && <Button onClick={logout} text="Logout" />}
+        {user && <Button onClick={handleLogout} text="Logout" />}
       </div>
     </header>
   );
