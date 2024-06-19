@@ -5,32 +5,18 @@ import User from "./User";
 import { useUser } from "../context/UserContext";
 import Button from "./Button";
 import CartStatus from "./CartStatus";
-import axios from "../axios"; // 수정된 경로
 
 export default function Header() {
-  const { user, setUser } = useUser();
+  const { user, login, logout } = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const login = async () => {
-    try {
-      const response = await axios.post('/auth/login', {
-        username,
-        password,
-      });
-      setUser(response.data);
-    } catch (error) {
-      console.error('Login error', error);
-    }
+  const handleLogin = async () => {
+    await login(username, password);
   };
 
-  const logout = async () => {
-    try {
-      await axios.post('/auth/logout');
-      setUser(null); // 로그아웃 후 사용자 정보 초기화
-    } catch (error) {
-      console.error('Logout error', error);
-    }
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -59,10 +45,10 @@ export default function Header() {
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
             />
-            <Button onClick={login} text="Login" />
+            <Button onClick={handleLogin} text="Login" />
           </div>
         )}
-        {user && <Button onClick={logout} text="Logout" />}
+        {user && <Button onClick={handleLogout} text="Logout" />}
       </div>
     </header>
   );
