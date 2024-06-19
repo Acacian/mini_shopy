@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Delete, Param, Body, Query, Req } from '@nestjs/common';
-import { Request } from 'express'; // express의 Request 타입을 가져옵니다.
 import { DatabaseService, AuthService } from './services';
 import { Product } from './entities';
+import { Request } from '@nestjs/common';
 
 @Controller('database')
 export class DatabaseController {
@@ -38,7 +38,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Get('user')
-  getUser(@Req() req: Request) { // req 파라미터에 타입을 지정합니다.
+  getUser(@Req() req: Request) {
     return this.authService.getUser(req);
   }
 }

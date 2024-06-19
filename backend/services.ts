@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product, Cart, User } from './entities';
-import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -12,11 +11,8 @@ export class AuthService {
   ) {}
 
   async getUser(req: Request) {
-    const userId = req.user?.id;
-    if (!userId) {
-      throw new Error("User ID is undefined");
-    }
-    return this.userRepository.findOne({ where: { id: userId } });
+    const userId = (req as any).user.id;  // 타입 캐스팅을 통해 'user' 접근
+    return this.userRepository.findOne(userId);
   }
 }
 
