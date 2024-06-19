@@ -2,6 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product, Cart, User } from './entities';
+import { Request } from 'express';
+
+@Injectable()
+export class AuthService {
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
+
+  async getUser(req: Request) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new Error("User ID is undefined");
+    }
+    return this.userRepository.findOne({ where: { id: userId } });
+  }
+}
 
 @Injectable()
 export class DatabaseService {
@@ -36,7 +53,7 @@ export class DatabaseService {
     }
   }
 
-  async writeProductData(productData, imageUrl: string) {
+  async writeProductData(productData: Partial<Product>, imageUrl: string) {
     const product = this.productRepository.create({
       ...productData,
       imageUrl,

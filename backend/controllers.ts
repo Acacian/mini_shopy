@@ -1,19 +1,15 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
-import { DatabaseService } from './services';
+import { Controller, Get, Post, Delete, Param, Body, Query, Req } from '@nestjs/common';
+import { Request } from 'express'; // express의 Request 타입을 가져옵니다.
+import { DatabaseService, AuthService } from './services';
 import { Product } from './entities';
 
 @Controller('database')
 export class DatabaseController {
   constructor(private databaseService: DatabaseService) {}
 
-  @Post('check-admin')
-  checkIsAdmin(@Body('user') user: any) {
-    return this.databaseService.checkIsAdmin(user);
-  }
-
   @Get('products')
-  getProducts(@Param('pageParam') pageParam: string, @Param('limit') limit: number) {
-    return this.databaseService.getProducts(pageParam, limit);
+  getProducts(@Query('page') page: string, @Query('limit') limit: number) {
+    return this.databaseService.getProducts(page, limit);
   }
 
   @Post('products')
@@ -34,5 +30,15 @@ export class DatabaseController {
   @Delete('cart/:userId/:productId')
   removeFromCart(@Param('userId') userId: number, @Param('productId') productId: number) {
     return this.databaseService.removeFromCart(userId, productId);
+  }
+}
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Get('user')
+  getUser(@Req() req: Request) { // req 파라미터에 타입을 지정합니다.
+    return this.authService.getUser(req);
   }
 }

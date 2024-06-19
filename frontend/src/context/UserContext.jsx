@@ -8,7 +8,7 @@ export const UserContextProvider = ({ children }) => {
 
   const login = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const response = await axios.post("http://localhost:3001/auth/login", {
         // login data
       });
       setUser(response.data.user);
@@ -19,7 +19,7 @@ export const UserContextProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3000/auth/logout");
+      await axios.post("http://localhost:3001/auth/logout");
       setUser(null);
     } catch (error) {
       console.error("Logout error", error);
@@ -28,7 +28,7 @@ export const UserContextProvider = ({ children }) => {
 
   const getUserState = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/auth/user");
+      const response = await axios.get("http://localhost:3001/auth/user");
       setUser(response.data.user);
     } catch (error) {
       console.error("User state error", error);

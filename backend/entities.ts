@@ -3,50 +3,53 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column()
-  description: string;
+  description!: string;
 
   @Column()
-  price: number;
+  price!: number;
 
   @Column()
-  imageUrl: string;
+  imageUrl!: string;
 
   @Column("simple-array")
-  option: string[];
+  option!: string[];
 
   @Column({ type: 'bigint' })
-  createdAt: number;
+  createdAt!: number;
 }
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  email: string;
+  email!: string;
+
+  @Column({ default: false })
+  isAdmin!: boolean;
 
   @OneToMany(() => Cart, cart => cart.user)
-  carts: Cart[];
+  carts!: Cart[];
 }
 
 @Entity()
 export class Cart {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @ManyToOne(() => User, user => user.carts)
-  user: User;
+  user!: User;
 
   @ManyToOne(() => Product)
-  product: Product;
+  product!: Product;
 
   @Column()
-  quantity: number;
+  quantity!: number;
 }

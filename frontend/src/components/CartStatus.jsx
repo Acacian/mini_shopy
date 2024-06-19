@@ -5,8 +5,9 @@ import { useUserContext } from "../context/UserContext";
 
 export default function CartStatus() {
   const { user } = useUserContext();
-  const { cartQuery } = useCart(user ? user.id : null);
-  const { data: carts, isLoading, error } = cartQuery;
+  const userId = user ? user.id : null;
+  const { cartQuery } = useCart(userId);
+  const { data: carts, isLoading, error } = cartQuery || {};
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading cart: {error.message}</div>;

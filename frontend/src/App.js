@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "./components/Header";
-import { UserContextProvider } from "./context/UserContext";
-import CartStatus from "./components/CartStatus";
+import Header from "../components/Header";
+import { UserContextProvider } from "../context/UserContext";
+import CartStatus from "../components/CartStatus";
 
 const queryClient = new QueryClient();
 export default function App() {
